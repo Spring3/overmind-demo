@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useOvermindActions, useOvermindState } from './store';
 
 function App() {
+  const state = useOvermindState();
+  const actions = useOvermindActions();
+
+  useEffect(() => {
+    const releases = actions.release.getMany({ status: 'active' });
+  }, [])
+
+  console.log(state.release.list);
+  console.log(state.release.byId);
+
   return (
     <div className="App">
       <header className="App-header">

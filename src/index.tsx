@@ -1,15 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider as OvermindProvider } from "overmind-react";
+import { createOvermind } from "overmind";
+import { createConfig } from "./store";
+import { createClient } from "contentful-management";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
+const sdk = createClient(
+  { accessToken: "<INSERT_YOUR_TOKEN>" },
+  {
+    type: "plain",
+    defaults: { spaceId: "<INSERT_YOUR_SPACE>", environmentId: "master" },
+  }
+);
+
+const overmindStore = createOvermind(createConfig(sdk));
+
 root.render(
   <React.StrictMode>
-    <App />
+    <OvermindProvider value={overmindStore}>
+      <App />
+    </OvermindProvider>
   </React.StrictMode>
 );
 
